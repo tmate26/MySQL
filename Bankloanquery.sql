@@ -1,0 +1,27 @@
+use project_loan;
+select * from loan;
+SELECT COUNT(id) AS Total_Applications FROM loan
+WHERE MONTH(issue_date) = 12;
+select count(id) as previous_total_applications from loan where month(issue_date) = 11;
+select sum(loan_amount) as total_funded_amount from loan;
+select sum(loan_amount) as month_total_funded_amount from loan where month(issue_date) = 12;
+select sum(loan_amount) as previous_total_funded_amount from loan where month(issue_date) = 11;
+select sum(total_payment) as Mtotal_amount_received from loan where month(issue_date) = 12;
+select sum(total_payment) as Ptotal_amount_received from loan where month(issue_date) = 11;
+SELECT * FROM LOAN;
+Select round((avg(int_rate) * 100),2) as avg_interest_rate from loan;
+Select round((avg(dti) * 100),2) as avg_dti from loan;
+select (count(case when loan_status = "Fully Paid" or loan_status = "Current" then id end) * 100) / count(id) as Good_loan_percentage from loan;
+select count(id) as Good_loan_application from loan where loan_status = "Fully Paid" or loan_status = "Current";
+select sum(loan_amount) as Good_loan_funded_amount from loan where loan_status = "Fully Paid" or loan_status = "Current";
+select sum(total_payment) as Good_loan_application from loan where loan_status = "Fully Paid" or loan_status = "Current";
+select (count(case when loan_status = "Charged Off" then id end) * 100) / count(id) as Bad_loan_percentage from loan;
+select count(id) as Bad_loan_application from loan where loan_status = "Charged Off";
+select sum(loan_amount) as bad_loan_funded_amount from loan where loan_status = "Charged Off";
+select sum(total_payment) as bad_loan_amount_received from loan where loan_status = "Charged Off";
+select month(date(issue_date) as monthwise, sum(total_payment) as total_amount_received, sum(loan_amount) as total_funded_amount,avg(int_rate * 100) as Avg_Int_rate,avg(dti * 100) as DTI from loan group by monthwise;
+select loan_status,count(id) as Total_loan_application, sum(total_payment) as total_amount_received, sum(loan_amount) as total_funded_amount,avg(int_rate * 100) as Avg_Int_rate,avg(dti * 100) as DTI from loan group by loan_status;
+select address_state,count(id) as Total_loan_application, sum(total_payment) as total_amount_received, sum(loan_amount) as total_funded_amount,avg(int_rate * 100) as Avg_Int_rate,avg(dti * 100) as DTI from loan group by address_state order by total_amount_received desc;
+select term,count(id) as Total_loan_application, sum(total_payment) as total_amount_received, sum(loan_amount) as total_funded_amount,avg(int_rate * 100) as Avg_Int_rate,avg(dti * 100) as DTI from loan group by term;
+select emp_length,count(id) as Total_loan_application, sum(total_payment) as total_amount_received, sum(loan_amount) as total_funded_amount,avg(int_rate * 100) as Avg_Int_rate,avg(dti * 100) as DTI from loan group by emp_length;
+select purpose,count(id) as total_loan_application,sum(total_payment) as total_amount_received,sum(loan_amount) as total_funded_amount,avg(int_rate * 100) as avg_int_rate,avg(dti * 100) as DTI from loan group by purpose;
